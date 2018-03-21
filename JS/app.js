@@ -85,8 +85,15 @@ class Player{
 	}
 	seeHand(){
 		console.log(this.cards);
+		
+		for(let element of this.cards){
+			console.log(element);
+		}
+
 		let selection = prompt();
+			
 		this.playCard(selection);
+
 	}
 
 	playCard(pick){
