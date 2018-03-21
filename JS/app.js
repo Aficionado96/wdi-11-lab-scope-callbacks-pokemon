@@ -23,8 +23,12 @@ const pokemonGame = {
 	dealer(shuffledDeck){
 		if((shuffledDeck.length)/2 >= 3){
 			for(let i = 0; i < 3; i ++){
-				shuffledDeck[i]
+				MJ.cards.push(shuffledDeck[i]);
+				shuffledDeck.splice([i],1);
+				computer.cards.push(shuffledDeck[i]);
+				shuffledDeck.splice([i],1);
 			}
+
 		}
 
 
@@ -35,7 +39,15 @@ const pokemonGame = {
 	playedCardsIncrement(){
 
 	},
-	whoWon(){
+	whoWon(playOfUser,playOfComputer){
+		if(playOfUser > playOfComputer){
+			console.log(MJ.username + " won!");
+
+		}
+		else if(playOfComputer > playOfUser){
+			console.log(computer.username + ' won!');
+		}
+		else{console.log('Draw');}
 
 	}
 	
@@ -51,9 +63,32 @@ class Player{
 		this.cards =[];
 		this.roundsWon =0;
 	}
+	seeHand(){
+		console.log(this.cards);
+		let selection = prompt();
+		this.playCard(selection);
+	}
 
 	playCard(pick){
-		this.cards[pick];
+		console.log(this.username + " selected " + this.cards[pick].name + ' with ' + this.cards[pick].damage + ' damage.');
+		let playOfUser =  this.cards[pick].damage;
+		this.computerPlay();
+	}
+	computerPlay(){
+		for(i = this.cards.length -1; i > 0; i --){
+			let randomizer = Math.floor(Math.random() * (i + 1));
+
+			let tempNum = this.cards[i];
+
+			this.cards[i] = this.cards[randomizer];
+
+			this.cards[randomizer] = tempNum;
+
+		}	
+
+		console.log('Computer Picked: ' + this.cards[i].name + ' with '+ this.cards[i].damage + ' damage.');
+		let playOfComputer = this.cards[i].damage;
+		pokemonGame.whoWon();
 	}
 
 	incrementScore(win){
